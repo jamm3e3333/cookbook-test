@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const userSchema = new mongoose.Schema({
     email: {
@@ -38,7 +39,13 @@ const userSchema = new mongoose.Schema({
                 throw new Error("Password must be longer than 7 characters.");
             }
         }
-    }
+    },
+    tokens: [{
+        token: {
+            type: String,
+            required: true
+        }
+    }]
 }, {
     timestamps: true
 });
@@ -47,8 +54,32 @@ userSchema.methods.toJSON = function() {
     const user = this;
     const userObject = user.toObject();
     delete userObject.password;
+    delete userObject.tokens;
 
     return userObject;
+}
+
+userSchema.statics.findByCredentials = async (email, password) => {
+    const user = await User.findOne({email});
+    if(!user) {
+        throw new Error("User doens\'t exist.");
+    }
+    const isValid = bcrypt.compare(password, user.password);
+    if(!isValid) {
+        throw new Error("Invalid password.");
+    }
+    return user;
+}
+
+userSchema.methods.createToken = async function() {
+    const user = this;
+    const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET);
+    if(!token) {
+        throw new Error("Token not created.");
+    }
+    user.tokens = user.tokens.concat({token});
+    await user.save();
+    return token;
 }
 
 userSchema.pre('save', async function(next){
