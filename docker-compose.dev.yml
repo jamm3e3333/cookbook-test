@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+
+  api:
+    volumes:
+      - ./server:/src
+      - /src/node_modules
+    command: yarn dev
+    env_file:
+      - ./server/config/dev.env
