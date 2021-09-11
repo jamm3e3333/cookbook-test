@@ -5,12 +5,13 @@ const recipeSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        unique: true,
+        maxLength: 50,
         lowercase: true
     },
     description: {
         type: String,
         trim: true,
+        maxLength: 500,
         lowercase: true,
         required: true
     },

@@ -4,7 +4,7 @@ const User = require('../../models/users');
 const auth = require('../../middleware/auth');
 const router = new express.Router();
 
-
+//CREATE A RECIPE
 router.post('/recipes/create', auth, async (req, res) => {
     try{
         const recipe = new Recipe({
@@ -25,6 +25,7 @@ router.post('/recipes/create', auth, async (req, res) => {
     }
 });
 
+//GET ALL THE RECIPES WITH SOME FILTER QUERIES
 router.get('/recipes/all', auth, async (req, res) => {
     try {
         const sort = {};
@@ -60,6 +61,8 @@ router.get('/recipes/all', auth, async (req, res) => {
     }
 });
 
+
+//GET ON RECIPE BY THE NAME
 router.get('/recipes/get/one', auth, async (req, res) => {
     try {
         const name = req.query.name;
@@ -95,6 +98,8 @@ router.get('/recipes/get/one', auth, async (req, res) => {
     }
 });
 
+
+//UPDATE A RECIPE 
 router.patch('/recipes/update/:id', auth, async (req, res) => {
     try {
         console.log(req.params.id);
@@ -148,5 +153,33 @@ router.patch('/recipes/update/:id', auth, async (req, res) => {
             .send({msg: e.message});
     }
 });
+
+
+//DELETE ONE RECIPE
+router.delete('/recipes/delete/one/:id', auth, async (req, res) => {
+    try{
+        const id = req.params.id;
+        await Recipe.deleteOne({_id: id, owner: req.user._id});
+        res.status(200)
+            .send(`Recipe with id ${id} was deleted.`);
+    }
+    catch(e) {
+        res.status(400)
+            .send({msg: e.message});
+    }
+})
+
+//DELETE ALL RECIPES
+router.delete('/recipes/delete/all', auth, async (req, res) => {
+    try{
+        await Recipe.deleteMany({owner: req.user._id});
+        res.status(200)
+            .send(`Recipes from user ${req.user.nick} were deleted.`);
+    }
+    catch(e) {
+        res.status(400)
+            .send({msg: e.message});
+    }
+})
 
 module.exports = router;

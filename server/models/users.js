@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
+const Recipe = require('./recipes');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -102,7 +102,7 @@ userSchema.pre('save', async function(next){
         user.password = await bcrypt.hash(user.password, 8);
     }
     next();
-})
+});
 
 const User = mongoose.model('User', userSchema);
 

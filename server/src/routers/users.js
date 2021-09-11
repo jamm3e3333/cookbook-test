@@ -1,4 +1,5 @@
 const User = require('../../models/users');
+const Recipe = require('../../models/recipes');
 const express = require('express');
 const router = new express.Router();
 const auth = require('../../middleware/auth');
@@ -122,6 +123,7 @@ router.get('/users/me', auth, async (req, res) => {
 //USER DELETE
 router.delete('/users/delete', auth, async (req, res) => {
     try{ 
+        await Recipe.deleteMany({owner: req.user._id});
         await User.deleteOne({_id: req.user._id});
         res.status(200)
             .send("User deleted.");
