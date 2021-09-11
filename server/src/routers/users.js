@@ -30,13 +30,18 @@ router.post('/users/signup', async (req, res) => {
 
 //USER SIGNIN
 router.post('/users/login', async (req, res) => {
-    try{    
+    try{
         const { email, password } = req.body;
         if(!email || !password) {
             return res.status(404)
                         .send("Data not found.");
         }
+        
         const user = await User.findByCredentials(email, password);
+        if(!user) {
+            return res.status(404)
+                        .send("User not found.");
+        }
         const token = await user.createToken();
         res.status(200)
             .send({user, token});

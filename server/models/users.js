@@ -66,15 +66,23 @@ userSchema.methods.toJSON = function() {
 }
 
 userSchema.statics.findByCredentials = async (email, password) => {
-    const user = await User.findOne({email});
-    if(!user) {
-        throw new Error("User doens\'t exist.");
+    try{
+        const user = await User.findOne({email});
+        
+        if(!user || !user.password) {
+            return undefined;
+        }
+    
+        const isValid = bcrypt.compare(password, user.password);
+    
+        if(!isValid) {
+            return undefined;
+        }
+        return user;
     }
-    const isValid = bcrypt.compare(password, user.password);
-    if(!isValid) {
-        throw new Error("Invalid password.");
+    catch(e) {
+        throw new Error('Unable to login.');
     }
-    return user;
 }
 
 userSchema.methods.createToken = async function() {
