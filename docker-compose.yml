@@ -10,6 +10,7 @@ services:
     depends_on: 
       - mongo
       - api
+      - client
   
   api:
     build:
@@ -17,6 +18,13 @@ services:
       context: ./server
     depends_on: 
       - mongo
+
+  client:
+    build:
+      dockerfile: Dockerfile
+      context: ./client
+    depends_on:
+      - api
 
   mongo:
     image: mongo

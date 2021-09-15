@@ -1,0 +1,14 @@
+.cart {
+    box-shadow: 0 2rem 2rem rgba(0,0,0,0.25);
+    margin: 2rem auto;
+    padding: 1rem;
+    border-radius: 1rem;
+    width: 70rem;
+    max-width: 95%;
+}
+
+@media (max-width: 600px) {
+    .cart {
+        width: 90%;
+    }
+}

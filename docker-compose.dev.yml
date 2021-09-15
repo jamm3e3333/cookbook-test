@@ -9,3 +9,11 @@ services:
     command: yarn dev
     env_file:
       - ./server/config/dev.env
+
+  client: 
+    stdin_open: true
+    volumes:
+      - ./client:/src
+      - /src/node_modules
+    command: yarn start
+    
