@@ -30,9 +30,9 @@ const SignUp = () => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    nick: inputNameRef.current.value,
-                    email: inputEmailRef.current.value,
-                    password: inputPassRef.current.value,
+                    nick: inputNameRef.current.value.trim(),
+                    email: inputEmailRef.current.value.trim(),
+                    password: inputPassRef.current.value.trim(),
                 })
             });
             if(!response.ok) {
