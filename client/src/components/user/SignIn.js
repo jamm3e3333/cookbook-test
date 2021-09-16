@@ -8,14 +8,14 @@ import Button from '../UI/Button';
 
 
 
-const SignUp = () => {
-    const inputNameRef = useRef();
+const SignIn = () => {
     const inputEmailRef = useRef();
     const inputPassRef = useRef();
 
     const dispatch = useDispatch();
 
     const [error, setError] = useState(false);
+
 
     const backHomeHandler = () => {
         dispatch(authActions.changePage(0));
@@ -24,13 +24,12 @@ const SignUp = () => {
     const postUser = async () => {
         try{
             setError(false);
-            const response = await fetch('api/users/signup', {
+            const response = await fetch('api/users/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    nick: inputNameRef.current.value,
                     email: inputEmailRef.current.value,
                     password: inputPassRef.current.value,
                 })
@@ -63,11 +62,7 @@ const SignUp = () => {
     return (
         <Cart className={classes['cart__div']}>
             <form onSubmit={formSubmitHandler} className={classes['signup__form']}>
-                <h2>Sign up user</h2>
-                <div>
-                    <label htmlFor="nick">Nick</label>
-                    <input type="text" ref={inputNameRef} />
-                </div>
+                <h2>Sign in user</h2>
                 <div>
                     <label htmlFor="email">Email</label>
                     <input type="email" ref={inputEmailRef} />
@@ -77,12 +72,12 @@ const SignUp = () => {
                     <input type="password" ref={inputPassRef} />
                 </div>
                 <div>
-                    <Button onClick={backHomeHandler}>Back</Button>
-                    <Button type={'submit'}>Sign up</Button>
+                    <Button onClick={backHomeHandler} >Back</Button>
+                    <Button type={'submit'}>Sign in</Button>
                 </div>
             </form>
         </Cart>
     )
 }
 
-export default SignUp;
+export default SignIn;

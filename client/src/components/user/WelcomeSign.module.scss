@@ -1,0 +1,36 @@
+.welcome__cart {
+    height: 80vh;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    
+    h2 {
+        margin-bottom: 3.5rem;
+        letter-spacing: .5rem;
+    }
+
+    .pic__holder {
+        border: none;
+        height: 45%;
+        width: 45%;
+        margin: 0 auto;
+        background-image: linear-gradient(
+            to right bottom, 
+            rgba(55, 176, 127, 0.6),
+            rgba(114, 179, 152, 0.6)),
+            url('../../assets/rice_field.jpeg');
+        background-size: cover;
+        background-position: top;
+        clip-path: polygon(100% 0%, 75% 50%, 100% 100%, 25% 100%, 0% 50%, 25% 0%);
+
+    }
+    
+    div {
+        margin-top: 5rem;
+        display: flex;
+        flex-direction: row;
+        justify-content:space-evenly;
+    }
+}

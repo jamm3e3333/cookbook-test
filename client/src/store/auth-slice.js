@@ -4,6 +4,7 @@ const initialState = {
     user: null,
     isAuth: false,
     token: '',
+    page: 0,
 }
 
 const authSlice = createSlice({
@@ -18,8 +19,17 @@ const authSlice = createSlice({
             }
             state.isAuth = true;
             state.token = action.payload.token;
-
+        },
+        signOut(state) {
+            state.user = null;
+            state.isAuth = false;
+            state.token = '';
+            state.page = 0;
+        },
+        changePage(state, action) {
+            state.page = action.payload;
         }
+
     }
 });
 

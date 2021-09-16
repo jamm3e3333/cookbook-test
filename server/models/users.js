@@ -73,7 +73,7 @@ userSchema.statics.findByCredentials = async (email, password) => {
             return undefined;
         }
     
-        const isValid = bcrypt.compare(password, user.password);
+        const isValid = await bcrypt.compare(password, user.password);
     
         if(!isValid) {
             return undefined;
